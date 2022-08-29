@@ -13,12 +13,12 @@ class EmailVerificationController extends Controller
         if ($request->user()->hasVerifiedEmail()) {
             return response()->json([
                 'message' => 'User email is already verified.'
-            ], 200);
+            ], config('responses.OK.code'));
         }
         $request->user()->sendEmailVerificationNotification();
         return response()->json([
             'message' => 'Verification email sent.'
-        ], 200);
+        ], config('responses.OK.code'));
     }
 
     public function verify(Request $request)
@@ -27,16 +27,16 @@ class EmailVerificationController extends Controller
         if (! hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
             return response()->json([
             'message' => 'Verification link is invalid.'
-            ], 400);
+            ], config('responses.BAD_REQUEST.code'));
         }
         if ($user->hasVerifiedEmail()) {
             return response()->json([
             'message' => 'User email is already verified.'
-            ], 200);
+            ], config('responses.OK.code'));
         }
         $user->markEmailAsVerified();
         return response()->json([
               'message' => 'User email is verified.'
-        ], 200);
+        ], config('responses.OK.code'));
     }
 }
