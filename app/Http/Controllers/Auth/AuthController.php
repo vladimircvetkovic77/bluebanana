@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserLoginRequest;
@@ -18,6 +16,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'parent_id' => $request->parent_id,
         ]);
 
         $token = $user -> createToken('myapptoken') -> plainTextToken;
@@ -27,7 +26,7 @@ class AuthController extends Controller
         return response([
             'user' => $user,
             'token' => $token
-        ], 201);
+        ], config('responses.CREATED.code'));
     }
 
     public function login(UserLoginRequest $request)
@@ -35,17 +34,20 @@ class AuthController extends Controller
         // TODO: implement login case when user is already logged in, not to reisue the token
         $credentials = $request->only(['email', 'password', 'remember_me']);
         if (!auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json([
+                  'error' => config('responses.BAD_REQUEST.message')
+            ], config('responses.BAD_REQUEST.code'));
         }
         return response()->json([
             'token' => auth()->user() -> createToken('myapptoken') -> plainTextToken,
             'user' => auth()->user()
-        ]);
+        ], config('responses.OK.code'));
     }
 
     public function logout()
     {
         auth()->user()->tokens()->delete();
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json([
+            'message' => 'Successfully logged out'], config('responses.OK.code'));
     }
 }
