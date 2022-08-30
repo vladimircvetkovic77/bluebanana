@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\CustomResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Redis;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -29,10 +30,33 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * Model events to be triggered in certain scenarios.
      */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            // delete all redis keys which contain the user word
+            // Redis::keys('user*')->each(function ($key) {
+            //     Redis::del($key);
+            // });
+        });
+
+        static::creating(function ($user) {
+            //
+        });
+
+        static::deleted(function ($user) {
+            //
+        });
+    }
+
+    /**
+       * The attributes that should be hidden for serialization.
+       *
+       * @var array<int, string>
+       */
     protected $hidden = [
         'password',
         'remember_token',

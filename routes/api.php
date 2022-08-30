@@ -26,6 +26,8 @@ Route::post('forgot-password', [NewPasswordController::class, 'forgotPassword'])
 Route::post('reset-password', [NewPasswordController::class, 'resetPassword'])->name('password.reset');
 // Notice in case of unverified email
 Route::get('verification-notice', [NewPasswordController::class, 'notice'])->name('verification.notice');
+// set key in redis
+Route::get('set-key', [NewPasswordController::class, 'setKeyRedis']);
 
 
 // Authenticated routes
@@ -34,7 +36,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail']);
 });
 
-// Authendicated and verified email routes
+// Authenticated and verified email routes
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('password-change', [NewPasswordController::class, 'changePassword']);
 });
