@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redis;
 use App\Http\Requests\UserLoginRequest;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
@@ -77,5 +78,15 @@ class NewPasswordController extends Controller
         return response()->json([
                 'message' => 'Your email needs to be verified.'
         ], config('responses.UNAUTHORIZED.code'));
+    }
+    public function setKeyRedis()
+    {
+        $user = auth()->user();
+
+        $key = 'random_key';
+        Redis::set('test-key', $key);
+        return response()->json([
+                'message' => 'Key set successfully.'
+        ], config('responses.OK.code'));
     }
 }
