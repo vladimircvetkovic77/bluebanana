@@ -16,13 +16,13 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'username' => $this->username,
             'email' => $this->email,
             'email_verified' => $this->email_verified_at ? true : false,
             'parent_id' => $this->parent_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'token' =>  $this-> createToken('myapptoken')->plainTextToken,
+            'token' =>  $this->createToken('myapptoken')->plainTextToken,
         ];
     }
 }
