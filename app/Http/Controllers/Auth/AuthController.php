@@ -3,26 +3,19 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Actions\User\CreateUser;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
-use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
     public function register(UserRegisterRequest $request)
     {
-        $user = User::create([
-            'username' => $request->username,
-            'user_type' => $request->user_type,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'parent_id' => $request->parent_id,
-        ]);
-
+        $user = CreateUser::run($request);
         $user->sendEmailVerificationNotification();
-
         return new UserResource($user);
     }
 

@@ -85,4 +85,10 @@ class UserFactory extends Factory
                 'email_verified_at' => null,
           ]);
       }
+      public function overridePassword($password)
+      {
+          return $this->state(fn (array $attributes) => [
+                'password' => $password,
+          ]);
+      }
 }

@@ -29,4 +29,8 @@ return [
             'code' => 404,
             'message' => 'Not Found',
       ],
+      'UNPROCESSABLE_ENTITY' => [
+            'code' => 422,
+            'message' => 'Unprocessable Entity',
+      ],
 ];
