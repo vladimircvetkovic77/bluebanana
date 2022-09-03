@@ -9,12 +9,17 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
+use App\Repositories\ORM\Contracts\OrmUserRepositoryInterface;
 
 class AuthController extends Controller
 {
+    public function __construct(private OrmUserRepositoryInterface $userRepository)
+    {
+      //
+    }
     public function register(UserRegisterRequest $request)
     {
-        $user = CreateUser::run($request);
+        $user = CreateUser::run($request, $this->userRepository);
         $user->sendEmailVerificationNotification();
         return new UserResource($user);
     }
