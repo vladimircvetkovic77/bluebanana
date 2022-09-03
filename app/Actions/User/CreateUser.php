@@ -11,9 +11,9 @@ class CreateUser
 {
     use AsAction;
 
-    public function handle(UserRegisterRequest $request)
+    public function handle(UserRegisterRequest $request, $userRepository)
     {
-        $user = User::create([
+        $user = $userRepository->create([
             'username' => $request->username,
             'user_type' => $request->user_type,
             'email' => $request->email,
