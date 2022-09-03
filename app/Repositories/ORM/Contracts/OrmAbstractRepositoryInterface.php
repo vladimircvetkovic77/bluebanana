@@ -12,4 +12,5 @@ interface OrmAbstractRepositoryInterface
     public function create(array $properties);
     public function update($id, array $properties);
     public function delete($id);
+    public function entity();
 }
