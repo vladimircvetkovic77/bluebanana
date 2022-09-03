@@ -2,13 +2,13 @@
 
 namespace App\Repositories\ORM\Eloquent;
 
-// use App\Repositories\Criteria\CriteriaInterface;
 use App\Repositories\Exceptions\NoEntityDefined;
+use App\Repositories\ORM\Criteria\CriteriaInterface;
 use App\Repositories\ORM\Contracts\OrmAbstractRepositoryInterface;
 
 abstract class EloquentAbstractRepository implements
-    OrmAbstractRepositoryInterface
-    // CriteriaInterface
+    OrmAbstractRepositoryInterface,
+    CriteriaInterface
 {
     protected $entity;
 
