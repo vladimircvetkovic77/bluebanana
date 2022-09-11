@@ -10,8 +10,13 @@ use App\Http\Controllers\Controller;
 
 class EmailVerificationController extends Controller
 {
-//    create constructor
     public function __construct(private EloquentUserRepository $userRepository) {}
+//    create comment doc
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function sendVerificationEmail(Request $request): JsonResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
@@ -25,6 +30,10 @@ class EmailVerificationController extends Controller
         ], config('responses.OK.code'));
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function verify(Request $request): JsonResponse
     {
         $user = $this->userRepository->find($request->route('id'));

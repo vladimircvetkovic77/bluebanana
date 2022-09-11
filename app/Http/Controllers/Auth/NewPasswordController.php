@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
-use App\Http\Requests\UserLoginRequest;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Requests\ResetPasswordRequest;
@@ -32,7 +31,7 @@ class NewPasswordController extends Controller
         }
     }
 
-    public function resetPassword(ResetPasswordRequest $request)
+    public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
         $status = Password::reset($request->only(
             'email',
@@ -54,7 +53,7 @@ class NewPasswordController extends Controller
                 ], config('responses.BAD_REQUEST.code'));
         }
     }
-    public function changePassword(ChangePasswordRequest $request)
+    public function changePassword(ChangePasswordRequest $request): JsonResponse
     {
         $user = auth()->user();
         if (!$user) {
@@ -79,7 +78,7 @@ class NewPasswordController extends Controller
                 'message' => 'Your email needs to be verified.'
         ], config('responses.UNAUTHORIZED.code'));
     }
-    public function setKeyRedis()
+    public function setKeyRedis(): JsonResponse
     {
         $user = auth()->user();
 
