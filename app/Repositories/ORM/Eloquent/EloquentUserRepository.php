@@ -8,7 +8,7 @@ use App\Repositories\ORM\Contracts\OrmUserRepositoryInterface;
 
 class EloquentUserRepository extends EloquentAbstractRepository implements OrmUserRepositoryInterface
 {
-    public function entity()
+    public function entity(): string
     {
         return User::class;
     }

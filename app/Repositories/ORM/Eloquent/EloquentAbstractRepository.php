@@ -5,6 +5,7 @@ namespace App\Repositories\ORM\Eloquent;
 use App\Repositories\Exceptions\NoEntityDefined;
 use App\Repositories\ORM\Criteria\CriteriaInterface;
 use App\Repositories\ORM\Contracts\OrmAbstractRepositoryInterface;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 abstract class EloquentAbstractRepository implements
     OrmAbstractRepositoryInterface,
@@ -12,6 +13,10 @@ abstract class EloquentAbstractRepository implements
 {
     protected $entity;
 
+    /**
+     * @throws BindingResolutionException
+     * @throws NoEntityDefined
+     */
     public function __construct()
     {
         $this->entity = $this->resolveEntity();
@@ -57,7 +62,7 @@ abstract class EloquentAbstractRepository implements
         return $this->find($id)->delete();
     }
 
-    public function withCriteria(array $criteria)
+    public function withCriteria(array $criteria): static
     {
         foreach ($criteria as $criterion) {
             //criterion je objekat koji je definisan sa new CriteriaClass
@@ -67,6 +72,10 @@ abstract class EloquentAbstractRepository implements
         return $this;
     }
 
+    /**
+     * @throws BindingResolutionException
+     * @throws NoEntityDefined
+     */
     public function resolveEntity()
     {
         if (!method_exists($this, 'entity')) {

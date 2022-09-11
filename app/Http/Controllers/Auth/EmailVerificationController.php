@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Repositories\ORM\Eloquent\EloquentUserRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class EmailVerificationController extends Controller
 {
-    public function sendVerificationEmail(Request $request)
+//    create constructor
+    public function __construct(private EloquentUserRepository $userRepository) {}
+    public function sendVerificationEmail(Request $request): JsonResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
             return response()->json([
@@ -21,9 +25,9 @@ class EmailVerificationController extends Controller
         ], config('responses.OK.code'));
     }
 
-    public function verify(Request $request)
+    public function verify(Request $request): JsonResponse
     {
-        $user = User::findOrFail($request->route('id'));
+        $user = $this->userRepository->find($request->route('id'));
         if (! hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
             return response()->json([
             'message' => 'Verification link is invalid.'
