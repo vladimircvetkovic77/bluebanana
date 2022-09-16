@@ -13,7 +13,7 @@ class AuthTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $userData = [
+    private array $userData = [
       'username' => 'John Doe',
       'email' => 'vladimir@me.com',
       'password' => 'secret01',

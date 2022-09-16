@@ -12,7 +12,11 @@ use App\Http\Requests\UserRegisterRequest;
 
 class AuthController extends Controller
 {
-    public function register(UserRegisterRequest $request)
+    /**
+     * @param UserRegisterRequest $request
+     * @return UserResource
+     */
+    public function register(UserRegisterRequest $request): UserResource
     {
         $user = CreateUser::run($request);
         $user->sendEmailVerificationNotification();
