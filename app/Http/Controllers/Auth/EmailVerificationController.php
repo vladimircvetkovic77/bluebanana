@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use App\Repositories\ORM\Eloquent\EloquentUserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class EmailVerificationController extends Controller
 {
-    public function __construct(private EloquentUserRepository $userRepository) {}
-//    create comment doc
+    public function __construct(private EloquentUserRepository $userRepository)
+    {
+    }
 
     /**
      * @param Request $request
@@ -37,19 +37,21 @@ class EmailVerificationController extends Controller
     public function verify(Request $request): JsonResponse
     {
         $user = $this->userRepository->find($request->route('id'));
-        if (! hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
+        if (!hash_equals((string)$request->route('hash'), sha1($user->getEmailForVerification()))) {
             return response()->json([
-            'message' => 'Verification link is invalid.'
+                'message' => 'Verification link is invalid.'
             ], config('responses.BAD_REQUEST.code'));
         }
         if ($user->hasVerifiedEmail()) {
+            
             return response()->json([
-            'message' => 'User email is already verified.'
+                'message' => 'User email is already verified.'
             ], config('responses.OK.code'));
         }
         $user->markEmailAsVerified();
+
         return response()->json([
-              'message' => 'User email is verified.'
+            'message' => 'User email is verified.'
         ], config('responses.OK.code'));
     }
 }
