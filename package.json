@@ -14,7 +14,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "php artisan test"
+            "pre-commit": "php artisan insights -v"
         }
     }
 }
