@@ -21,7 +21,6 @@ class NewPasswordController extends Controller
         );
 
         if ($status === Password::RESET_LINK_SENT) {
-
             return response()->json([
                 'message' => 'Password reset link sent successfully.'
             ], config('responses.OK.code'));
@@ -54,7 +53,6 @@ class NewPasswordController extends Controller
     {
         $user = auth()->user();
         if (!$user) {
-
             return response()->json([
                 'message' => config('responses.UNAUTHORIZED.message')
             ], config('responses.UNAUTHORIZED.code'));
@@ -84,7 +82,10 @@ class NewPasswordController extends Controller
     public function setKeyRedis(): JsonResponse
     {
         $user = auth()->user();
+
         $key = 'random_key';
+
+
         Redis::set('test-key', $key);
 
         return response()->json([

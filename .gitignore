@@ -16,3 +16,5 @@ yarn-error.log
 /.vscode
 dump.rdb
 .gitmessage.txt
+php-cs-fixer.cache
+php-cs*
