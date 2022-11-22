@@ -59,7 +59,7 @@ class NewPasswordController extends Controller
                 'message' => config('responses.UNAUTHORIZED.message')
             ], config('responses.UNAUTHORIZED.code'));
         }
-        
+
         if (Hash::check($request->old_password, $user->password)) {
             $user->password = Hash::make($request->password);
             $user->save();
@@ -87,6 +87,7 @@ class NewPasswordController extends Controller
 
         $key = 'random_key';
         Redis::set('test-key', $key);
+        
         return response()->json([
             'message' => 'Key set successfully.'
         ], config('responses.OK.code'));
