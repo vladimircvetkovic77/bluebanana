@@ -86,8 +86,9 @@ class NewPasswordController extends Controller
         $user = auth()->user();
 
         $key = 'random_key';
-        Redis::set('test-key', $key);
         
+        Redis::set('test-key', $key);
+
         return response()->json([
             'message' => 'Key set successfully.'
         ], config('responses.OK.code'));
