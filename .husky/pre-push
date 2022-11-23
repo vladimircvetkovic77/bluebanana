@@ -1,0 +1,3 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+npx lint-staged && php artisan test # or whatever you want to run
